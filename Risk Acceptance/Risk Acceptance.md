@@ -1,195 +1,310 @@
+# Risk Acceptance Document  
 
-Project 05: Writing a Risk Acceptance for a Security Gap
-Overview
+## Document Header  
 
-Every organization has risks it chooses to live with. The difference between strong and weak GRC is whether those decisions are intentional, documented, and defensible.
+| Field | Value |  
+|-------|-------|  
+| Risk ID | RA-2026-001 |  
+| System/Asset | Online Banking System (XYZ Group of Companies) |  
+| Risk Owner | Head of IT |  
+| Prepared By | Manish Shrestha |  
+| Date | 2026-04-24 |  
+| Review Date | 2026-10-24 |  
+| Version | 1.0 |  
 
-This project focuses on writing a risk acceptance in a Nepali financial/regulatory context, where decisions must align with NRB expectations, audit requirements, and real business constraints.
+---  
 
-┌─────────────────────────────────────────────────────────────────────────────┐  
-│                    RISK ACCEPTANCE: FAILURE MODES                           │  
-├─────────────────────────────────────────────────────────────────────────────┤  
-│                                                                             │  
-│   COMMON FAILURES                       WHAT SHOULD HAPPEN                  │  
-│   ───────────────                       ────────────────────                │  
-│                                                                             │  
-│   Drowning in technical jargon          Plain business language             │  
-│   "Privilege escalation risk"           "Someone could access financial     │  
-│                                         data without approval"             │  
-│                                                                             │  
-│   Hiding behind vague language          Specific, evidenced statements      │  
-│   "Risk is low"                         "Similar cases in industry have     │  
-│   "Controls are in place"               resulted in NPR 5–20 Crore loss"   │  
-│                                                                             │  
-│   Selling the decision                  Honest trade-off explanation        │  
-│   Downplays impact                      Clearly states downside             │  
-│                                                                             │  
-│   Treating it as permission slip        Treating it as business decision    │  
-│   IT/Audit "approving" risk             Business **owning** the risk        │  
-│                                                                             │  
-└─────────────────────────────────────────────────────────────────────────────┘  
-The Scenario
+## 1. Executive Summary  
 
-Company: XYZ Group of Companies
-Industry: Banking / Hydropower / Financial Services
-Size: Multi-entity group (approx. 300–500 employees)
-Compliance: NRB Guidelines, Internal Audit, PCI DSS (where applicable), ISO 27001
+The organization is currently operating an online banking platform without Multi-Factor Authentication (MFA), increasing the risk of unauthorized access. Due to cost and integration constraints, full remediation is delayed.  
 
-The Security Gap
+**Recommendation:**  
+- [ ] Option A: Implement full MFA immediately  
+- [x] Option B: Implement partial MFA for high-risk users  
+- [ ] Option C: Accept risk fully  
+- [ ] Option D: Accept with minimal controls  
 
-The internal audit team has identified that the company’s legacy financial reconciliation system:
+---  
 
-Uses a shared service account with database admin privileges
-The password has not been rotated in 18 months
-12–15 team members know the password
-The system processes approximately NPR 200–300 billion annually
-Replacing the system would require 12–18 months of development
-Technical Details
-System: Legacy Reconciliation System (internal application)
-Database: Oracle (financial + sensitive data)
-Authentication: Static username/password stored in config file
-Logging: Application logs exist, but no database query logging
-Network: Operates within sensitive financial environment
-Business Context
-Finance team relies on this system for daily operations
-Critical for financial reporting and audit
-No budget allocated for replacement in current fiscal year
-Previous modernization attempt failed
-System owner is the CFO
-What You Need to Do
-Phase 1: Understand the Risk (Not Just the Vulnerability)
+## 2. Risk Description  
 
-Task: Translate the technical finding into business risk.
+### 2.1 What Could Happen  
 
-┌─────────────────────────────────────────────────────────────────────────────┐  
-│                    VULNERABILITY VS RISK                                    │  
-├─────────────────────────────────────────────────────────────────────────────┤  
-│                                                                             │  
-│   VULNERABILITY (Technical)             RISK (Business)                     │  
-│   ─────────────────────────             ───────────────                     │  
-│                                                                             │  
-│   Shared service account                No accountability over financial    │  
-│                                         data access                         │  
-│                                                                             │  
-│   No password rotation                  If compromised, long-term access    │  
-│                                         possible                            │  
-│                                                                             │  
-│   12–15 people know password            Higher insider/phishing risk        │  
-│                                                                             │  
-│   No query logging                      Breach may go undetected            │  
-│                                                                             │  
-│   DB admin privileges                   Financial records can be altered    │  
-│                                         or deleted                          │  
-│                                                                             │  
-└─────────────────────────────────────────────────────────────────────────────┘  
-Phase 2: Assess Likelihood and Impact
+Unauthorized users may gain access to customer accounts and perform fraudulent transactions.  
 
-Task: Provide specific, evidence-based assessment.
+| Scenario | Description |  
+|----------|-------------|  
+| Scenario 1 | Customer accounts compromised via password theft |  
+| Scenario 2 | Internal staff misuse access privileges |  
+| Scenario 3 | Automated credential stuffing attack |  
 
-BAD Assessment (Vague)
-Likelihood: Low  
-Impact: High  
-Risk Rating: Medium  
-GOOD Assessment (Specific)
-┌─────────────────────────────────────────────────────────────────────────────┐  
-│                         LIKELIHOOD ASSESSMENT                               │  
-├─────────────────────────────────────────────────────────────────────────────┤  
-│                                                                             │  
-│   FACTOR                                ASSESSMENT                          │  
-│   ──────                                ──────────                          │  
-│                                                                             │  
-│   Threat Actor Interest                 **HIGH**                            │  
-│                                                                             │  
-│   Attack Complexity                     **LOW**                             │  
-│                                                                             │  
-│   Detection Capability                  **LOW**                             │  
-│                                                                             │  
-│   Historical Incidents                  **UNKNOWN**                         │  
-│                                                                             │  
-│   OVERALL LIKELIHOOD: **MODERATE-HIGH**                                     │  
-│                                                                             │  
-└─────────────────────────────────────────────────────────────────────────────┘  
+### 2.2 How It Could Happen  
 
-┌─────────────────────────────────────────────────────────────────────────────┐  
-│                         IMPACT ASSESSMENT                                   │  
-├─────────────────────────────────────────────────────────────────────────────┤  
-│                                                                             │  
-│   IMPACT CATEGORY           POTENTIAL CONSEQUENCE            ESTIMATED COST │  
-│                                                                             │  
-│   Regulatory Action         NRB penalties                  **NPR 5–20 Cr**   │  
-│                                                                             │  
-│   Financial Fraud           Data manipulation              **NPR 1–10 Cr**   │  
-│                                                                             │  
-│   Reputation                Customer trust loss            **HIGH**          │  
-│                                                                             │  
-│   Business Disruption       System downtime                **10–20L/day**    │  
-│                                                                             │  
-│   TOTAL POTENTIAL IMPACT: **NPR 10–25 Crore (most likely)**                 │  
-│                                                                             │  
-└─────────────────────────────────────────────────────────────────────────────┘  
-Phase 3: Evaluate Compensating Controls
-┌─────────────────────────────────────────────────────────────────────────────┐  
-│                    COMPENSATING CONTROLS ASSESSMENT                         │  
-├─────────────────────────────────────────────────────────────────────────────┤  
-│                                                                             │  
-│   CLAIMED CONTROL           EFFECTIVENESS              HONEST ASSESSMENT    │  
-│                                                                             │  
-│   Network security          **PARTIAL**               Does not prevent       │  
-│                                                      insider misuse         │  
-│                                                                             │  
-│   Application logging       **WEAK**                  No DB-level logs       │  
-│                                                                             │  
-│   Staff trust               **MINIMAL**               No misuse control      │  
-│                                                                             │  
-│   Encryption                **IRRELEVANT**            Doesn’t prevent        │  
-│                                                      authorized misuse      │  
-│                                                                             │  
-│   OVERALL: **LIMITED PROTECTION**                                           │  
-│                                                                             │  
-└─────────────────────────────────────────────────────────────────────────────┘  
-Phase 4: Present Options to Business
-┌─────────────────────────────────────────────────────────────────────────────┐  
-│                         DECISION OPTIONS                                    │  
-├─────────────────────────────────────────────────────────────────────────────┤  
-│                                                                             │  
-│   OPTION A: **FULL REMEDIATION**                                            │  
-│   Cost: **NPR 10–15 Crore** | Timeline: **12–18 months** | Risk: LOW        │  
-│                                                                             │  
-│   OPTION B: **PARTIAL REMEDIATION**                                         │  
-│   Cost: **NPR 20–30 lakh** | Timeline: **3 months** | Risk: MEDIUM          │  
-│                                                                             │  
-│   OPTION C: **ACCEPT RISK**                                                 │  
-│   Cost: **0** | Potential Loss: **NPR 10–25 Crore** | Risk: HIGH            │  
-│                                                                             │  
-│   OPTION D: **ACCEPT WITH MINIMAL IMPROVEMENTS**                            │  
-│   Cost: **Minimal** | Timeline: **2 weeks** | Risk: HIGH (reduced)          │  
-│                                                                             │  
-└─────────────────────────────────────────────────────────────────────────────┘  
-Phase 5: Write the Risk Acceptance Document
+1. Weak or reused passwords  
+2. Phishing attacks targeting customers  
+3. Lack of secondary authentication controls  
 
-Create a formal document including:
+### 2.3 Why We Might Not Know  
 
-Executive Summary
-Risk Description (plain language)
-Likelihood & Impact (with numbers)
-Options considered
-Selected option with rationale
-Residual risks
-Conditions & review timeline
-Sign-offs (CFO, Compliance, Security)
-Success Criteria
-Criteria	Evidence
-Plain language	CFO can understand
-Specific	Uses NPR, timelines
-Honest controls	No exaggeration
-Options presented	At least 3
-Residual risk clear	Explicit risks
-Conditions stated	Review defined
-Deliverables Checklist
-□ Risk description in plain language  
-□ Likelihood assessment with evidence  
-□ Impact assessment in NPR  
-□ Honest control evaluation  
-□ Options analysis (minimum 3 options)  
-□ Formal risk acceptance document  
-□ Conditions and review schedule  
+Limited real-time monitoring and absence of anomaly detection tools delay detection.  
+
+---  
+
+## 3. Risk Assessment  
+
+### 3.1 Likelihood Assessment  
+
+| Factor | Assessment | Evidence |  
+|--------|------------|----------|  
+| Threat Actor Interest | High | Financial systems are prime targets |  
+| Attack Complexity | Low | Widely available attack tools |  
+| Detection Capability | Medium | Basic logging exists |  
+| Historical Incidents | 2 | Past phishing-related cases |  
+
+**Overall Likelihood:** High  
+
+**Basis:**  
+High-value target with weak authentication controls increases probability of attack.  
+
+### 3.2 Impact Assessment  
+
+| Impact Category | Potential Consequence | Estimated Cost |  
+|-----------------|----------------------|----------------|  
+| Data Breach | Exposure of customer data | $50,000 |  
+| Financial Loss | Fraudulent transactions | $100,000 |  
+| Regulatory Action | NRB penalties | $30,000 |  
+| Reputation | Loss of customer trust | $80,000 |  
+| Business Disruption | Temporary service shutdown | $20,000 |  
+
+**Total Potential Impact:** $100,000 - $280,000 range  
+**Most Likely Scenario:** $150,000  
+
+### 3.3 Risk Rating  
+
+                IMPACT  
+                Low    Med    High   Critical  
+       High   |  M   |  H   |  H   |   C    |  
+
+LIKELIHOOD Med | L | M | H | H |
+Low | L | L | M | H |
+
+Current Risk Position: High
+
+
+---  
+
+## 4. Existing Controls Assessment  
+
+### 4.1 Controls Currently in Place  
+
+| Control | Description | Effectiveness | Honest Assessment |  
+|---------|-------------|---------------|-------------------|  
+| Password Policy | Minimum complexity rules | Weak | Users reuse passwords |  
+| Firewall | Basic perimeter protection | Adequate | Does not stop credential attacks |  
+| Logging | System activity logs | Weak | No active monitoring |  
+
+### 4.2 Controls NOT in Place  
+
+| Control | Why Missing | Impact |  
+|---------|-------------|--------|  
+| Multi-Factor Authentication | Budget constraints | High risk exposure |  
+| SIEM Monitoring | No dedicated team | Delayed detection |  
+
+### 4.3 Overall Control Effectiveness  
+
+Current controls are insufficient to prevent modern attacks.  
+
+**Rating:** [ ] Strong [ ] Adequate [x] Weak [ ] Insufficient  
+
+---  
+
+## 5. Options Analysis  
+
+### Option A: Full Remediation  
+
+| Aspect | Detail |  
+|--------|--------|  
+| Description | Implement MFA across all users |  
+| Actions Required | Deploy MFA system, user training |  
+| Cost | $60,000 |  
+| Timeline | 3 months |  
+| Residual Risk | Low |  
+| Pros | Strong security |  
+| Cons | High cost, user resistance |  
+
+### Option B: Partial Remediation  
+
+| Aspect | Detail |  
+|--------|--------|  
+| Description | MFA for high-risk users only |  
+| Actions Required | Identify users, deploy limited MFA |  
+| Cost | $25,000 |  
+| Timeline | 1.5 months |  
+| Residual Risk | Medium |  
+| Pros | Cost-effective, quick |  
+| Cons | Not full coverage |  
+
+### Option C: Accept Risk  
+
+| Aspect | Detail |  
+|--------|--------|  
+| Description | No changes implemented |  
+| Actions Required | None |  
+| Direct Cost | $0 |  
+| Potential Cost | $150,000 |  
+| Residual Risk | High |  
+| Pros | No cost |  
+| Cons | High exposure |  
+
+### Option D: Accept with Minimal Improvements  
+
+| Aspect | Detail |  
+|--------|--------|  
+| Description | Improve password policies only |  
+| Actions Required | Enforce stricter rules |  
+| Cost | $5,000 |  
+| Timeline | 2 weeks |  
+| Residual Risk | Med-High |  
+| Pros | Quick implementation |  
+| Cons | Weak mitigation |  
+
+### Options Comparison  
+
+| Factor | Option A | Option B | Option C | Option D |  
+|--------|----------|----------|----------|----------|  
+| Direct Cost | High | Medium | None | Low |  
+| Timeline | Long | Medium | None | Short |  
+| Residual Risk | Low | Medium | High | Med-High |  
+| Compliance Impact | Strong | Moderate | Weak | Weak |  
+| Business Impact | Medium | Low | High | Medium |  
+
+---  
+
+## 6. Recommendation  
+
+### 6.1 Selected Option  
+Option B: Partial Remediation  
+
+### 6.2 Rationale  
+
+1. Balances cost and security improvement  
+2. Addresses highest-risk users first  
+3. Enables phased future implementation  
+
+### 6.3 Immediate Actions  
+
+- [x] Identify high-risk users  
+- [x] Procure MFA solution  
+- [ ] Begin deployment  
+
+### 6.4 Future Commitments  
+
+| Action | Timeline | Owner | Budget |  
+|--------|----------|-------|--------|  
+| Full MFA rollout | 6 months | IT Head | $35,000 |  
+| SIEM implementation | 9 months | Security Team | $20,000 |  
+
+---  
+
+## 7. Residual Risk Acknowledgment  
+
+| Residual Risk | Description | Why Accepted |  
+|---------------|-------------|--------------|  
+| Partial user exposure | Non-MFA users still vulnerable | Budget limitation |  
+
+### 7.1 What We Will NOT Be Able to Do if Incident Occurs  
+
+1. Prevent all unauthorized access  
+2. Detect attacks in real-time  
+3. Fully avoid financial loss  
+
+---  
+
+## 8. Conditions and Validity  
+
+### 8.1 This Acceptance is Valid Only If:  
+- [x] MFA implemented for high-risk users  
+- [x] Logs are reviewed weekly  
+- [x] No major incidents occur  
+
+### 8.2 This Acceptance Expires On:  
+2026-10-24  
+
+### 8.3 Re-evaluation Triggers  
+
+- [x] Security incident occurs  
+- [x] Regulatory requirement changes  
+- [x] System upgrade  
+
+---  
+
+## 9. Compliance Implications  
+
+| Framework | Requirement | Impact of Acceptance |  
+|-----------|-------------|---------------------|  
+| NRB Guidelines | Strong authentication | Partial non-compliance |  
+| ISO 27001 | Access control | Gap exists |  
+
+---  
+
+## 10. Signatures  
+
+### Risk Owner (Business)  
+
+| Field | Value |  
+|-------|-------|  
+| Name | |  
+| Title | Head of IT |  
+| Date | |  
+| Signature | |  
+
+### Security Review  
+
+| Field | Value |  
+|-------|-------|  
+| Name | |  
+| Title | Security Manager |  
+| Date | |  
+| Signature | |  
+
+### Compliance Review  
+
+| Field | Value |  
+|-------|-------|  
+| Name | |  
+| Title | Compliance Officer |  
+| Date | |  
+| Signature | |  
+
+### Executive Approval (if required)  
+
+| Field | Value |  
+|-------|-------|  
+| Name | |  
+| Title | CEO |  
+| Date | |  
+| Signature | |  
+
+---  
+
+## Version History  
+
+| Version | Date | Author | Changes |  
+|---------|------|--------|---------|  
+| 1.0 | 2026-04-24 | Manish Shrestha | Initial document |  
+
+---  
+
+## Appendices  
+
+### A. Technical Details  
+MFA solution based on OTP and mobile authentication.  
+
+### B. Reference Documents  
+
+| Document | Location |  
+|----------|----------|  
+| Security Policy | Internal Repository |  
+
+### C. Meeting Minutes  
+Risk discussed in IT Governance Committee meeting (April 2026).  
