@@ -81,7 +81,7 @@ High-value target with weak authentication controls increases probability of att
 
 ### 3.3 Risk Rating  
 
-                IMPACT  
+  IMPACT  
                 Low    Med    High   Critical  
        High   |  M   |  H   |  H   |   C    |  
 
