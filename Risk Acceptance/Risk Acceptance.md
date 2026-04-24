@@ -81,15 +81,13 @@ High-value target with weak authentication controls increases probability of att
 
 ### 3.3 Risk Rating  
 
-  IMPACT  
-|         | Low    |Med    | High   | Critical | 
-|  High   |  M   |  H   |  H   |   C    |  
+| Likelihood \ Impact | Low | Medium | High | Critical |
+|---------------------|-----|--------|------|----------|
+| High                | M   | H      | H    | C        |
+| Medium              | L   | M      | H    | H        |
+| Low                 | L   | L      | M    | H        |
 
-|LIKELIHOOD Med | L | M | H | H |
-|Low | L | L | M | H |
-
-Current Risk Position: High
-
+**Current Risk Position:** HIGH
 
 ---  
 
